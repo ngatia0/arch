@@ -1,0 +1,5 @@
+mkfs.f2fs -f -l ROOT -O extra_attr -O inode_checksum -O sb_checksum -O compression "$ROOT_DEV"
+
+mount -t f2fs -o noatime,lazytime,background_gc=on,atgc,gc_merge,extent_cache,inline_data,inline_dentry,flush_merge,compress_algorithm=lz4,compress_chksum,compress_mode=fs "$ROOT_DEV" /mnt
+
+systemctl enable fstrim.timer
