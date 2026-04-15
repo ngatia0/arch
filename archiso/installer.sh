@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 # --- Configuration ---
 USERNAME="kvnx"
@@ -33,7 +32,6 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # 6. Generate the Chroot Setup Script
 cat << 'EOF' > /mnt/setup.sh
 #!/usr/bin/env bash
-set -euo pipefail
 
 USERNAME="kvnx"
 HOSTNAME="archiso"
@@ -88,6 +86,13 @@ initrd  /intel-ucode.img
 initrd  /initramfs-linux-zen.img
 options root=UUID=$ROOT_UUID rw rootfstype=f2fs quiet splash
 EOT
+cat << EOT > /boot/loader/entries/arch-cachyos.conf
+title   Arch Linux (CachyOS)
+linux   /vmlinuz-linux-cachyos
+initrd  /intel-ucode.img
+initrd  /initramfs-linux-cachyos.img
+options root=UUID=$ROOT_UUID rw rootfstype=f2fs quiet splash
+EOT
 
 # Initramfs
 # Fix: use 'sd-plymouth' (pairs with systemd hook), not 'plymouth' (udev/busybox only)
@@ -95,7 +100,7 @@ cat << EOT > /etc/mkinitcpio.conf
 MODULES=(f2fs i915)
 BINARIES=()
 FILES=()
-HOOKS=(systemd sd-plymouth autodetect microcode modconf kms sd-vconsole block filesystems fsck)
+HOOKS=(systemd plymouth autodetect microcode modconf kms sd-vconsole block filesystems fsck)
 EOT
 
 mkinitcpio -p linux-zen
