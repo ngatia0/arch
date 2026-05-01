@@ -86,11 +86,19 @@ initrd  /intel-ucode.img
 initrd  /initramfs-linux-zen.img
 options root=UUID=$ROOT_UUID rw rootfstype=f2fs quiet splash
 EOT
-cat << EOT > /boot/loader/entries/arch-cachyos.conf
-title   Arch Linux (CachyOS)
+cat << EOT > /boot/loader/entries/cachyos.conf
+title   CachyOS
 linux   /vmlinuz-linux-cachyos
 initrd  /intel-ucode.img
 initrd  /initramfs-linux-cachyos.img
+options root=UUID=$ROOT_UUID rw rootfstype=f2fs quiet splash
+EOT
+
+cat << EOT > /boot/loader/entries/cachyos-bore.conf
+title   CachyOS-Bore
+linux   /vmlinuz-linux-cachyos-bore-lto
+initrd  /intel-ucode.img
+initrd  /initramfs-linux-cachyos-bore-lto.img
 options root=UUID=$ROOT_UUID rw rootfstype=f2fs quiet splash
 EOT
 
