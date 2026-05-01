@@ -108,7 +108,7 @@ cat << EOT > /etc/mkinitcpio.conf
 MODULES=(f2fs i915)
 BINARIES=()
 FILES=()
-HOOKS=(systemd plymouth autodetect microcode modconf kms sd-vconsole block filesystems fsck)
+HOOKS=(base systemd plymouth autodetect modconf kms sd-vconsole block filesystems fsck)
 EOT
 
 mkinitcpio -p linux-zen
